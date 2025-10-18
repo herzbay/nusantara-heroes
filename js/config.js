@@ -1,12 +1,9 @@
 /**
  * Firebase Configuration
- * 
- * PENTING: Ganti dengan konfigurasi Firebase Anda sendiri!
- * Dapatkan dari Firebase Console > Project Settings > General
  */
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyBzgV3s3xX53jhSmXw18_qzEBJlaHIf9Qg",
+    apiKey: "#",
     authDomain: "pahlawan-nusantara-app.web.app",
     projectId: "pahlawan-nusantara-app",
     storageBucket: "pahlawan-nusantara-app.appspot.com",

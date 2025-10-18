@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pahlawan Nusantara: Upgrade Arena</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="text-white antialiased">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-500">
+        <div class="text-center">
+            <svg class="animate-spin h-10 w-10 text-indigo-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-lg text-gray-300"> Sedang Memuat Aset...</p>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="card rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
+            <h3 class="text-2xl font-bold text-red-400 mb-4">Kesalahan Konfigurasi</h3>
+            <p class="text-gray-300 mb-4">
+                Domain aplikasi ini belum diizinkan di proyek Firebase Anda. Ini **BUKAN** kesalahan kode.
+            </p>
+            <p class="text-gray-400 mb-6">
+                Untuk memperbaikinya, ikuti langkah berikut:
+            </p>
+            <ol class="text-left text-gray-300 list-decimal list-inside space-y-2 mb-6 bg-gray-900/50 p-4 rounded-lg">
+                <li>Buka <strong>Firebase Console</strong> > <strong>Authentication</strong> > <strong>Settings</strong>.</li>
+                <li>Klik <strong>Add domain</strong> di bawah "Authorized domains".</li>
+                <li>Salin dan tempel domain di bawah ini:</li>
+            </ol>
+            <div class="bg-gray-900 rounded p-3 text-center mb-6">
+                <code class="text-yellow-300 break-all">us-central1-a.devshell.app.google.com</code>
+            </div>
+            <button id="close-error-modal-btn" class="w-full btn-primary text-white font-semibold py-2 px-4 rounded-lg">Saya Mengerti</button>
+        </div>
+    </div>
+
+    <div id="app-container" class="container mx-auto p-4 md:p-8 min-h-screen flex flex-col items-center justify-center opacity-0 transition-opacity duration-500">
+        
+        <!-- Landing Page -->
+        <div id="landing-page" class="w-full max-w-3xl text-center">
+            <div class="card rounded-2xl shadow-2xl p-8 md:p-12">
+                <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500">Selamat Datang</h1>
+                <p class="text-gray-300 mt-4 text-lg md:text-xl">Di <span class="font-semibold text-white">Pahlawan Nusantara: Upgrade Arena</span></p>
+                <p class="text-gray-400 mt-4 max-w-xl mx-auto">
+                    Pilih ksatria legendaris, selesaikan misi, dan tingkatkan statistikmu untuk menjadi yang terkuat di arena. Petualanganmu menanti!
+                </p>
+                <button id="start-btn" class="mt-8 btn-primary text-white font-bold py-3 px-10 rounded-lg shadow-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-lg">
+                    Mulai Petualangan
+                </button>
+            </div>
+        </div>
+
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="hidden w-full max-w-md text-center">
+            <div class="card rounded-2xl shadow-2xl p-8 md:p-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Daftar atau Masuk</h2>
+                <p class="text-gray-400 mb-8">Simpan progres permainanmu selamanya.</p>
+                <div class="space-y-4">
+                    <button id="google-signin-btn" class="w-full btn-google font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.222 0-9.612-3.213-11.26-7.581l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.022 35.253 44 30.023 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
+                        Masuk dengan Google
+                    </button>
+                    <button id="guest-signin-btn" class="w-full btn-secondary text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:opacity-90 transition-all duration-300">
+                        Lanjutkan sebagai Tamu
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Selection Screen -->
+        <div id="character-selection" class="hidden w-full max-w-5xl">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500">Pahlawan Nusantara</h1>
+                <p class="text-gray-400 mt-2 text-lg">Pilih Ksatria Legendarismu untuk Bertarung di Arena</p>
+            </div>
+            <div id="character-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Character cards will be injected here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="game-screen" class="hidden w-full max-w-5xl">
+            <div class="card rounded-2xl shadow-2xl p-6 md:p-8">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Panel: Character Info -->
+                    <div class="md:w-1/3 text-center flex flex-col items-center">
+                        <div id="character-art" class="w-48 h-48 md:w-56 md:h-56 p-2 rounded-full bg-gray-700/50 flex items-center justify-center mb-4 shadow-lg">
+                            <!-- SVG Art will be injected here -->
+                        </div>
+                        <h2 id="character-name" class="text-3xl font-bold"></h2>
+                        <p id="character-title" class="text-indigo-400 text-md mb-4"></p>
+                        
+                        <div class="w-full text-left space-y-2">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1 text-gray-300">
+                                    <span>Level</span>
+                                    <span id="level-value"></span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                    <div id="exp-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2.5 rounded-full stat-bar-fill"></div>
+                                </div>
+                                <p id="exp-text" class="text-xs text-gray-500 text-right mt-1"></p>
+                            </div>
+                             <div class="pt-2">
+                                <p class="text-lg text-center">Poin Upgrade: <span id="upgrade-points" class="font-bold text-2xl text-yellow-400">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Stats & Actions -->
+                    <div class="md:w-2/3">
+                        <h3 class="text-2xl font-semibold mb-4 border-b-2 border-gray-700 pb-2">Statistik Karakter</h3>
+                        <div id="stats-container" class="space-y-4">
+                            <!-- Stats will be injected here by JavaScript -->
+                        </div>
+                        <div class="mt-8 text-center space-y-4">
+                            <button id="mission-btn" class="w-full md:w-auto btn-primary text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                                Lakukan Misi (+1 Poin)
+                            </button>
+                             <button id="change-character-btn" class="w-full md:w-auto btn-secondary text-white font-semibold py-2 px-6 rounded-lg hover:opacity-90 transition duration-300">
+                                Ganti Karakter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="text-center mt-4 text-gray-500 text-xs flex justify-between items-center px-2">
+                <p>ID Pengguna: <span id="user-id-display"></span></p>
+                <button id="logout-btn" class="text-red-400 hover:text-red-300 transition">Keluar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

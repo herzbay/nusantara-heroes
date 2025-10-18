@@ -1,0 +1,98 @@
+/* Custom Styles untuk Pahlawan Nusantara Game */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #111827; 
+    background-image: radial-gradient(circle at 1px 1px, #374151 1px, transparent 0);
+    background-size: 20px 20px;
+}
+
+.card {
+    background: rgba(31, 41, 55, 0.8); 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(75, 85, 99, 0.5); 
+}
+
+.btn-primary {
+    background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-image: linear-gradient(to right, #155e75, #0e7490);
+}
+
+.btn-secondary:hover {
+    opacity: 0.9;
+}
+
+.btn-google {
+    background-color: #ffffff;
+    color: #1f2937;
+}
+
+.btn-google:hover {
+    background-color: #f3f4f6;
+}
+
+.stat-bar-fill {
+    transition: width 0.5s ease-in-out;
+}
+
+.disabled-btn {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(80%);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+    .card {
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}

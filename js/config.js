@@ -3,7 +3,7 @@
  */
 
 export const firebaseConfig = {
-    apiKey: "#",
+    apiKey: "AIzaSyBzgV3s3xX53jhSmXw18_qzEBJlaHIf9Qg",
     authDomain: "pahlawan-nusantara-app.web.app",
     projectId: "pahlawan-nusantara-app",
     storageBucket: "pahlawan-nusantara-app.appspot.com",

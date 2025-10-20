@@ -147,6 +147,12 @@ export const renderGameUI = (onUpgrade) => {
 
     // Render stats
     renderStats(state, onUpgrade);
+    
+    // Update mission button text
+    const missionBtn = document.getElementById('mission-btn');
+    if (missionBtn) {
+        missionBtn.textContent = '🌟 Mulai Spirit Trial';
+    }
 };
 
 /**
@@ -210,4 +216,32 @@ export const getElements = () => {
         changeCharacterBtn: document.getElementById('change-character-btn'),
         closeErrorModalBtn: document.getElementById('close-error-modal-btn')
     };
+};
+
+/**
+ * Set mission button handler
+ */
+export const setMissionButtonHandler = (handler) => {
+    const missionBtn = document.getElementById('mission-btn');
+    if (missionBtn) {
+        console.log('Setting up mission button with Spirit Trial handler');
+        
+        // Remove old listeners by cloning
+        const newMissionBtn = missionBtn.cloneNode(true);
+        missionBtn.parentNode.replaceChild(newMissionBtn, missionBtn);
+        
+        // Ensure button text is correct
+        newMissionBtn.textContent = '🌟 Mulai Spirit Trial';
+        
+        // Add new listener
+        newMissionBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Mission button clicked!');
+            handler();
+        });
+        
+        console.log('Mission button handler setup complete');
+    } else {
+        console.warn('Mission button not found in DOM');
+    }
 };

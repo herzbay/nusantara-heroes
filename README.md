@@ -6,11 +6,11 @@ A web-based RPG that brings legendary Indonesian heroes to life. Complete missio
 
 ## ✨ Features
 
-- 🦸 **3 Legendary Heroes:** — Gatotkaca, Srikandi, and Hanoman  
-- 🔐 **Google / Guest Login:** — Powered by Firebase Authentication  
-- 🧠 **Level & EXP System:** — Gain experience through missions  
-- ⚔️ **Upgradeable Stats:** — Power, Defense, Agility, and Magic  
-- 💾 **Auto-Save Progress:** — Stored securely in Firestore  
+- 🦸 **3 Legendary Heroes:** Gatotkaca, Srikandi, and Hanoman  
+- 🔐 **Google / Guest Login:** Powered by Firebase Authentication  
+- 🧠 **Level & EXP System:** Gain experience through missions  
+- ⚔️ **Upgradeable Stats:** Power, Defense, Agility, and Magic  
+- 💾 **Auto-Save Progress:** Stored securely in Firestore  
 - 📱 **Responsive UI:** Optimized for desktop and mobile
 
 ---
@@ -57,7 +57,7 @@ pahlawan-nusantara/
 
 1. Choose your hero and begin your journey.  
 2. Complete missions to gain EXP and upgrade points.  
-3. Boost your stats — Strength, Defense, Agility, or Magic.  
+3. Boost your stats: Strength, Defense, Agility, or Magic.  
 4. Level up and unlock bonus points.  
 5. Your progress is automatically saved in Firebase.
 
@@ -97,6 +97,7 @@ with proper credit to the original creator.
 ## 📧 Contact
 
 Created with ❤️ by herzbay (Bayu Herlambang)
+
  • LinkedIn
  • GitHub
  • Email

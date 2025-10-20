@@ -17,8 +17,11 @@ import {
     renderCharacterSelection,
     renderGameUI,
     setMissionButtonState,
-    getElements
+    getElements,
+    setMissionButtonHandler
 } from './ui.js';
+import { startSpiritTrial } from './spirit-trial.js';
+import { initBattleEventListeners } from './spirit-trial-ui.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -37,6 +40,9 @@ const initApp = () => {
 
     // Setup event listeners
     setupEventListeners();
+    
+    // Initialize battle event listeners
+    initBattleEventListeners();
 
     // Listen for auth state changes
     onAuthChange(handleAuthStateChange);
@@ -49,6 +55,8 @@ const initApp = () => {
  * Setup all event listeners
  */
 const setupEventListeners = () => {
+    console.log('Setting up event listeners...');
+    
     // Start button
     if (uiElements.startBtn) {
         uiElements.startBtn.addEventListener('click', () => {
@@ -71,11 +79,6 @@ const setupEventListeners = () => {
         uiElements.logoutBtn.addEventListener('click', handleLogout);
     }
 
-    // Mission button
-    if (uiElements.missionBtn) {
-        uiElements.missionBtn.addEventListener('click', handleMission);
-    }
-
     // Change character button
     if (uiElements.changeCharacterBtn) {
         uiElements.changeCharacterBtn.addEventListener('click', handleChangeCharacter);
@@ -85,6 +88,10 @@ const setupEventListeners = () => {
     if (uiElements.closeErrorModalBtn) {
         uiElements.closeErrorModalBtn.addEventListener('click', hideErrorModal);
     }
+    
+    // NOTE: Mission button handler akan di-setup setelah game screen di-render
+    // Lihat handleCharacterSelect() dan handleAuthStateChange()
+    console.log('Event listeners setup complete (excluding mission button)');
 };
 
 /**
@@ -104,6 +111,9 @@ const handleAuthStateChange = async (user) => {
             setGameState(result.data);
             showScreen('game');
             renderGameUI(handleStatUpgrade);
+            
+            // Setup mission button with Spirit Trial
+            setMissionButtonHandler(handleMission);
         } else {
             // No saved data, show character selection
             showScreen('characterSelection');
@@ -173,6 +183,9 @@ const handleCharacterSelect = async (characterId) => {
     // Show game screen
     showScreen('game');
     renderGameUI(handleStatUpgrade);
+    
+    // Setup mission button with Spirit Trial
+    setMissionButtonHandler(handleMission);
 };
 
 /**
@@ -189,23 +202,11 @@ const handleStatUpgrade = async (statName) => {
 };
 
 /**
- * Handle mission completion
+ * Handle mission completion (Spirit Trial)
  */
 const handleMission = async () => {
-    setMissionButtonState(true);
-
-    // Simulate mission duration
-    await new Promise(resolve => setTimeout(resolve, gameConstants.MISSION_DURATION));
-
-    const result = await completeMission();
-
-    if (result.success) {
-        renderGameUI(handleStatUpgrade);
-    } else {
-        alert('Terjadi kesalahan saat menjalankan misi.');
-    }
-
-    setMissionButtonState(false);
+    // Start Spirit Trial instead of automatic mission
+    startSpiritTrial();
 };
 
 /**
@@ -248,4 +249,5 @@ const handleChangeCharacter = () => {
 };
 
 // Start the application
+window.handleStatUpgrade = handleStatUpgrade; // Export for use in battle UI
 initApp();
